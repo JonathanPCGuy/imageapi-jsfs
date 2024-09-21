@@ -4,8 +4,24 @@
   "description": "Project for a course in Udacity",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint \"./src/**/*.ts\"",
+    "prettier": "prettier --config .prettierrc \"./src/**/*.ts\" --write"
   },
   "author": "",
-  "license": "SEE LICENSE IN LICENSE.txt"
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "devDependencies": {
+    "@eslint/js": "^9.11.0",
+    "@types/jasmine": "^5.1.4",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "globals": "^15.9.0",
+    "prettier": "^2.5.1",
+    "typescript-eslint": "^8.6.0"
+  },
+  "dependencies": {
+    "jasmine": "^5.3.0",
+    "jasmine-spec-reporter": "^7.0.0"
+  }
 }
