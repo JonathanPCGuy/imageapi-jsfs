@@ -4,15 +4,20 @@
   "description": "Project for a course in Udacity",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && npm run jasmine",
+    "build": "npx tsc",
     "lint": "eslint \"./src/**/*.ts\"",
-    "prettier": "prettier --config .prettierrc \"./src/**/*.ts\" --write"
+    "prettier": "prettier --config .prettierrc \"./src/**/*.ts\" --write",
+    "jasmine": "jasmine"
   },
   "author": "",
   "license": "SEE LICENSE IN LICENSE.txt",
   "devDependencies": {
     "@eslint/js": "^9.11.0",
+    "@types/express": "^4.17.21",
     "@types/jasmine": "^5.1.4",
+    "@types/node": "^22.6.1",
+    "@types/supertest": "^6.0.2",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -21,7 +26,10 @@
     "typescript-eslint": "^8.6.0"
   },
   "dependencies": {
+    "express": "^4.21.0",
     "jasmine": "^5.3.0",
-    "jasmine-spec-reporter": "^7.0.0"
+    "jasmine-spec-reporter": "^7.0.0",
+    "sharp": "^0.33.5",
+    "supertest": "^7.0.0"
   }
 }
