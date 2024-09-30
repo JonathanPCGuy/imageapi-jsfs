@@ -24,9 +24,9 @@ describe("Image request class", function() {
         expect(sharedRequest.GetExpectedFilePath().endsWith('fjord_200x150.jpg')).toBeTrue();
     });
 
-    it('image should exist', () => {
+    it('image should exist', async () => {
         console.log("Current directory:", __dirname);
-        expect(sharedRequest.DoesInputImageExist()).toBeTrue();
+        expect(await sharedRequest.DoesInputImageExist()).toBeTrue();
     });
 
     // need to set up to always run?
@@ -36,7 +36,29 @@ describe("Image request class", function() {
         const creationResult = await sharedRequest.CreateResizedImage();
         // todo: better logging
         expect(creationResult).withContext('file should have been created with no error').toBeTrue();
-        expect(sharedRequest.DoesOutputImageExist()).withContext('output file should be in expected location').toBeTrue();
+        expect(await sharedRequest.DoesOutputImageExist()).withContext('output file should be in expected location').toBeTrue();
+    });
+
+    it('should error when invalid input is provided', async () => {
+        it('when image doesn\'t exist', async () => {
+            let targetImage : string = path.resolve('images/doesnotexist.jpg');
+            let outputDir : string = path.resolve('imageCache');
+            try
+            {
+                let imgRequest = new ImageRequest(targetImage, outputDir, 200, 200);
+                fail('trying to create instance of image class should have thrown an error');
+            }
+            catch
+            {
+
+            }
+        });
+
+        it('when new size values are invalid', async () => {
+
+        });
+
+        
     });
 
 

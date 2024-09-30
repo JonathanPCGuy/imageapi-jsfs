@@ -1,5 +1,6 @@
 // todo: create class to hold all the params for an image request
 
+import * as promisefs from 'fs/promises';
 import fs from 'fs';
 import ResizeImage from './ImageModifierHelper';
 import path from 'path';
@@ -17,6 +18,10 @@ class ImageRequest {
     {
         this.inputImagePath = inputPath;
         this.outputDir = outputDir;
+        if(inputWidth <=0 || inputHeight <= 0)
+        {
+            throw new Error('invalid dimension to resize to');
+        }
         this.width = inputWidth;
         this.height = inputHeight;
         // need to split the file name and combine
@@ -30,16 +35,36 @@ class ImageRequest {
         return path.join(this.outputDir,`${this.fileWithoutExtName}_${this.width}x${this.height}${this.extension}`);
     }
 
-    DoesInputImageExist(): boolean {
+    DoesInputImageExistSync(): boolean {
         return fs.existsSync(this.inputImagePath);
     }
 
-    DoesOutputImageExist(): boolean {
+    async DoesInputImageExist(): Promise<boolean> {
+        try{
+            await promisefs.access(this.inputImagePath);
+            return true;
+        }
+        catch{
+            return false;
+        }
+    }
+
+    async DoesOutputImageExist(): Promise<boolean> {
+        try{
+            await promisefs.access(this.outputImagePath);
+            return true;
+        }
+        catch{
+            return false;
+        }
+    }
+
+    DoesOutputImageExistSync(): boolean {
         return fs.existsSync(this.outputImagePath);
     }
 
     async CreateResizedImage(): Promise<boolean> {
-        if(this.DoesInputImageExist() == false)
+        if(this.DoesInputImageExistSync() == false)
         {
             return false;
         }
