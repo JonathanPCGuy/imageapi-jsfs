@@ -2,28 +2,32 @@
 
 import fs from 'fs';
 import ResizeImage from './ImageModifierHelper';
+import path from 'path';
 
 class ImageRequest {
     width: number;
     height: number;
     inputImagePath: string;
-    fileName: string;
+    fileWithoutExtName: string;
     extension:string;
     outputImagePath: string;
+    outputDir: string;
 
-    constructor(inputPath: string, inputWidth: number, inputHeight: number)
+    constructor(inputPath: string, outputDir:string, inputWidth: number, inputHeight: number)
     {
         this.inputImagePath = inputPath;
+        this.outputDir = outputDir;
         this.width = inputWidth;
         this.height = inputHeight;
-        this.fileName = this.inputImagePath.substring(0, this.inputImagePath.lastIndexOf('.'));
-        this.extension = this.inputImagePath.substring(this.inputImagePath.lastIndexOf('.')+1); // corner case
+        // need to split the file name and combine
+        this.extension = path.extname(this.inputImagePath);
+        this.fileWithoutExtName = path.basename(this.inputImagePath, this.extension);
         this.outputImagePath = this.GetExpectedFilePath();
     }
 
     GetExpectedFilePath(): string {
         
-        return `${this.fileName}_${this.width}x${this.height}.${this.extension}`;
+        return path.join(this.outputDir,`${this.fileWithoutExtName}_${this.width}x${this.height}${this.extension}`);
     }
 
     DoesInputImageExist(): boolean {

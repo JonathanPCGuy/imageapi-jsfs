@@ -5,14 +5,18 @@ import path from 'path'
 describe("Image request class", function() {
     
     // output location may need to be adjusted, especially for testing
-    let targetImage = path.join(__dirname, '../../../images/fjord.jpg');
-    let expectedOutputImagePath = "../../../images/fjord_200x150.jpg";
-    let sharedRequest = new ImageRequest(targetImage, 200, 150);
+    // for some reason relative path did not work, had to make it absolute path
+    let targetImage : string = path.resolve('images/fjord.jpg');
+    let outputDir : string = path.resolve('imageCache');
+    let expectedOutputImagePath : string =  path.resolve('imageCache/fjord_200x150.jpg');
+    let sharedRequest :ImageRequest = new ImageRequest(targetImage, outputDir, 200, 150);
     //let inputPath = "test.jpg";
     beforeAll(function() {
+        console.info(targetImage);
         if(fs.existsSync(expectedOutputImagePath))
         {
-            fs.unlinkSync('../../../images/fjord_200x150.jpg');
+            console.info('removing existing file');
+            fs.unlinkSync(expectedOutputImagePath);
         }
     });
     
@@ -27,12 +31,12 @@ describe("Image request class", function() {
 
     // need to set up to always run?
     it ("should create the image", async ()  =>{
-        console.log(sharedRequest.GetExpectedFilePath());
-        expect(fs.existsSync(sharedRequest.GetExpectedFilePath())).toBeFalse(); // is there a way to pass in custom error messages
+        console.info(sharedRequest.GetExpectedFilePath());
+        expect(fs.existsSync(sharedRequest.GetExpectedFilePath())).withContext('file should not be present before creation').toBeFalse(); // is there a way to pass in custom error messages
         const creationResult = await sharedRequest.CreateResizedImage();
         // todo: better logging
-        expect(creationResult).toBeTrue();
-        expect(sharedRequest.DoesOutputImageExist()).toBeTrue();
+        expect(creationResult).withContext('file should have been created with no error').toBeTrue();
+        expect(sharedRequest.DoesOutputImageExist()).withContext('output file should be in expected location').toBeTrue();
     });
 
 
