@@ -6,17 +6,19 @@ import fs from 'fs'
 
 const resizeRequest = async(req: express.Request, res: express.Response, next: Function) =>
 {
-    let imageName = path.basename(req.baseUrl);
-    let inputImage : string = path.join('images', imageName);
-    inputImage = path.resolve(inputImage);
     let outputDir : string = path.resolve('imageCache');
+    let inputDir : string = path.resolve('images');
+
+    const extension : string = '.jpg';
 
     try
     {
-        let width: number = Number(req.params['width']);
-        let height: number = Number(req.params['height']);
+        let inputFileName = req.query.filename + extension;
+        let inputPath: string = path.resolve(inputDir, inputFileName);
+        let width: number = Number(req.query.width);
+        let height: number = Number(req.query.height);
 
-        let imageRequest : ImageRequest = new ImageRequest(inputImage, outputDir, width, height);
+        let imageRequest : ImageRequest = new ImageRequest(inputPath, outputDir, width, height);
 
 
         res.locals.imageRequest = imageRequest;

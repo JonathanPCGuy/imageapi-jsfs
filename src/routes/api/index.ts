@@ -1,8 +1,12 @@
 import express from 'express';
-import resizeRoute from './resize';
+import images from './images';
 
 const apiRoutes = express.Router();
 
-apiRoutes.use('resize', resizeRoute);
+apiRoutes.use('/images', images);
+
+apiRoutes.get('/', (req, res) => {
+    res.send('{"notice":"visit /images with params to be able to request a resized image."}');
+});
 
 export default apiRoutes;

@@ -2,7 +2,7 @@
 
 import * as promisefs from 'fs/promises';
 import fs from 'fs';
-import ResizeImage from './ImageModifierHelper';
+import ResizeImage from './imageSharpWrapper';
 import path from 'path';
 
 class ImageRequest {
@@ -51,10 +51,12 @@ class ImageRequest {
 
     async DoesOutputImageExist(): Promise<boolean> {
         try{
+            console.log('in output image exist');
             await promisefs.access(this.outputImagePath);
             return true;
         }
         catch{
+            console.log('output image does not exist.')
             return false;
         }
     }
@@ -64,7 +66,10 @@ class ImageRequest {
     }
 
     async CreateResizedImage(): Promise<boolean> {
-        if(this.DoesInputImageExistSync() == false)
+        console.info('in create resized image');
+        // debug
+        console.info(this.inputImagePath);
+        if(!(await this.DoesInputImageExist()))
         {
             return false;
         }

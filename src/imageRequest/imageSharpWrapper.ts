@@ -6,9 +6,7 @@ const ResizeImage = async(request: ImageRequest) : Promise<boolean> => {
 
     try
     {
-        const readFile = await fs.readFile(request.inputImagePath, {encoding: null});
-
-        // could specify file path directly?
+        console.info('in resize image function');
         const buffer = await sharp(request.inputImagePath).resize(request.width, request.height).toBuffer();
 
         await fs.writeFile(request.outputImagePath, buffer, {flag: 'w'});
