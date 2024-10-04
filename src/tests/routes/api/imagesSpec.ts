@@ -20,27 +20,27 @@ describe("Testing the /api/images endpoint", () => {
         }
     });
 
-    it('base api endpoint should return 200', async(done) => {
+    it('base api endpoint should return 200', async() => {
         const response = await request.get('/api');
         expect(response.statusCode).withContext('should return 200').toBe(200);
     });
 
-    it('valid request should return 200', async(done) => {
+    it('valid request should return 200', async() => {
         const response = await request.get('/api/images?filename=fjord&width=200&height=200');
         expect(response.statusCode).withContext('valid request should return 200').toBe(200);
     });
 
-    it('invalid request (missing file) should return 400', async(done) => { 
+    it('invalid request (missing file) should return 400', async() => { 
         const response = await request.get('/api/images?filename=doesnotexist&width=200&height=200');
         expect(response.statusCode).withContext('invalid request should return 400').toBe(400);
     });
 
-    it('invalid request (missing params) should return 400', async(done) => {
+    it('invalid request (missing params) should return 400', async() => {
         const response = await request.get('/api/images?filename=fjord&width=200');
         expect(response.statusCode).withContext('invalid request should return 400').toBe(400);
     });
 
-    it('invalid request (bad params) should return 400', async(done) => {
+    it('invalid request (bad params) should return 400', async() => {
         const response = await request.get('/api/images?filename=fjord&width=-5&height=a');
         expect(response.statusCode).withContext('invalid request should return 400').toBe(400);
     });

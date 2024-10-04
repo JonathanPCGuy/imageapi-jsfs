@@ -22,6 +22,11 @@ class ImageRequest {
         {
             throw new Error('invalid dimension to resize to');
         }
+
+        if(this.DoesInputImageExistSync() === false)
+        {
+            throw new Error('input image does not exist.');
+        }
         this.width = inputWidth;
         this.height = inputHeight;
         // need to split the file name and combine
