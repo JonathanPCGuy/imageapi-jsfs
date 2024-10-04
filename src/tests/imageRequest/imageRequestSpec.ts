@@ -5,12 +5,12 @@ import path from 'path';
 describe('Image request class', function () {
   // output location may need to be adjusted, especially for testing
   // for some reason relative path did not work, had to make it absolute path
-  let targetImage: string = path.resolve('images/fjord.jpg');
-  let outputDir: string = path.resolve('imageCache');
-  let expectedOutputImagePath: string = path.resolve(
+  const targetImage: string = path.resolve('images/fjord.jpg');
+  const outputDir: string = path.resolve('imageCache');
+  const expectedOutputImagePath: string = path.resolve(
     'imageCache/fjord_200x150.jpg'
   );
-  let sharedRequest: ImageRequest = new ImageRequest(
+  const sharedRequest: ImageRequest = new ImageRequest(
     targetImage,
     outputDir,
     200,
@@ -54,25 +54,31 @@ describe('Image request class', function () {
 
   describe('should error when invalid input is provided', async () => {
     it("when image doesn't exist", async () => {
-      let targetImage: string = path.resolve('images/doesnotexist.jpg');
-      let outputDir: string = path.resolve('imageCache');
+      const targetImage: string = path.resolve('images/doesnotexist.jpg');
+      const outputDir: string = path.resolve('imageCache');
       try {
-        let imgRequest = new ImageRequest(targetImage, outputDir, 200, 200);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const imgRequest = new ImageRequest(targetImage, outputDir, 200, 200);
         fail(
           'trying to create instance of ImageRequest with a non existent input image should have thrown an error'
         );
-      } catch {}
+      } 
+      // eslint-disable-next-line no-empty
+      catch {}
     });
 
     it('when new size values are invalid', async () => {
-      let targetImage: string = path.resolve('images/fjord.jpg');
-      let outputDir: string = path.resolve('imageCache');
+      const targetImage: string = path.resolve('images/fjord.jpg');
+      const outputDir: string = path.resolve('imageCache');
       try {
-        let imgRequest = new ImageRequest(targetImage, outputDir, -5, 0);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const imgRequest = new ImageRequest(targetImage, outputDir, -5, 0);
         fail(
           'trying to create instance of image class should have thrown an error'
         );
-      } catch {}
+      } 
+      // eslint-disable-next-line no-empty
+      catch {}
     });
   });
 });

@@ -1,4 +1,4 @@
-import sharp, { Sharp } from 'sharp';
+import sharp from 'sharp';
 import { ImageRequest } from './imageRequest';
 import { promises as fs } from 'fs';
 

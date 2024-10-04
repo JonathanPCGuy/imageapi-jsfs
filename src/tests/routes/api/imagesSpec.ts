@@ -1,4 +1,3 @@
-import jasmine from 'jasmine';
 import supertest from 'supertest';
 import app from '../../../index';
 import path from 'path';
@@ -8,8 +7,8 @@ import fs from 'fs';
 const request = supertest(app);
 
 describe('Testing the /api/images endpoint', () => {
-  let targetImage: string = path.resolve('images/fjord.jpg');
-  let expectedOutputImagePath: string = path.resolve(
+  const targetImage: string = path.resolve('images/fjord.jpg');
+  const expectedOutputImagePath: string = path.resolve(
     'imageCache/fjord_200x150.jpg'
   );
 

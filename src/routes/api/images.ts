@@ -9,7 +9,7 @@ resizeRoute.use(resizeRequest);
 resizeRoute.get('/', async (req, res) => {
   // the middleware should make
   try {
-    let imageRequest: ImageRequest = res.locals.imageRequest;
+    const imageRequest: ImageRequest = res.locals.imageRequest;
 
     if (!imageRequest.DoesInputImageExist()) {
       res.status(400).send('Input image does not exist');
@@ -24,7 +24,7 @@ resizeRoute.get('/', async (req, res) => {
     }
 
     res.sendFile(imageRequest.GetExpectedFilePath());
-  } catch (err) {
+  } catch {
     // possible to better serve more targeted codes?
     res.status(400).send('Unable to serve resized image');
   }
