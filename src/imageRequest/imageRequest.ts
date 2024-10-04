@@ -6,80 +6,84 @@ import ResizeImage from './imageSharpWrapper';
 import path from 'path';
 
 class ImageRequest {
-    width: number;
-    height: number;
-    inputImagePath: string;
-    fileWithoutExtName: string;
-    extension:string;
-    outputImagePath: string;
-    outputDir: string;
+  width: number;
+  height: number;
+  inputImagePath: string;
+  fileWithoutExtName: string;
+  extension: string;
+  outputImagePath: string;
+  outputDir: string;
 
-    constructor(inputPath: string, outputDir:string, inputWidth: number, inputHeight: number)
-    {
-        this.inputImagePath = inputPath;
-        this.outputDir = outputDir;
-        if(inputWidth <=0 || inputHeight <= 0)
-        {
-            throw new Error('invalid dimension to resize to');
-        }
-
-        if(this.DoesInputImageExistSync() === false)
-        {
-            throw new Error('input image does not exist.');
-        }
-        this.width = inputWidth;
-        this.height = inputHeight;
-        // need to split the file name and combine
-        this.extension = path.extname(this.inputImagePath);
-        this.fileWithoutExtName = path.basename(this.inputImagePath, this.extension);
-        this.outputImagePath = this.GetExpectedFilePath();
+  constructor(
+    inputPath: string,
+    outputDir: string,
+    inputWidth: number,
+    inputHeight: number
+  ) {
+    this.inputImagePath = inputPath;
+    this.outputDir = outputDir;
+    if (inputWidth <= 0 || inputHeight <= 0) {
+      throw new Error('invalid dimension to resize to');
     }
 
-    GetExpectedFilePath(): string {
-        
-        return path.join(this.outputDir,`${this.fileWithoutExtName}_${this.width}x${this.height}${this.extension}`);
+    if (this.DoesInputImageExistSync() === false) {
+      throw new Error('input image does not exist.');
     }
+    this.width = inputWidth;
+    this.height = inputHeight;
+    // need to split the file name and combine
+    this.extension = path.extname(this.inputImagePath);
+    this.fileWithoutExtName = path.basename(
+      this.inputImagePath,
+      this.extension
+    );
+    this.outputImagePath = this.GetExpectedFilePath();
+  }
 
-    DoesInputImageExistSync(): boolean {
-        return fs.existsSync(this.inputImagePath);
-    }
+  GetExpectedFilePath(): string {
+    return path.join(
+      this.outputDir,
+      `${this.fileWithoutExtName}_${this.width}x${this.height}${this.extension}`
+    );
+  }
 
-    async DoesInputImageExist(): Promise<boolean> {
-        try{
-            await promisefs.access(this.inputImagePath);
-            return true;
-        }
-        catch{
-            return false;
-        }
-    }
+  DoesInputImageExistSync(): boolean {
+    return fs.existsSync(this.inputImagePath);
+  }
 
-    async DoesOutputImageExist(): Promise<boolean> {
-        try{
-            console.log('in output image exist');
-            await promisefs.access(this.outputImagePath);
-            return true;
-        }
-        catch{
-            console.log('output image does not exist.')
-            return false;
-        }
+  async DoesInputImageExist(): Promise<boolean> {
+    try {
+      await promisefs.access(this.inputImagePath);
+      return true;
+    } catch {
+      return false;
     }
+  }
 
-    DoesOutputImageExistSync(): boolean {
-        return fs.existsSync(this.outputImagePath);
+  async DoesOutputImageExist(): Promise<boolean> {
+    try {
+      console.log('in output image exist');
+      await promisefs.access(this.outputImagePath);
+      return true;
+    } catch {
+      console.log('output image does not exist.');
+      return false;
     }
+  }
 
-    async CreateResizedImage(): Promise<boolean> {
-        console.info('in create resized image');
-        // debug
-        console.info(this.inputImagePath);
-        if(!(await this.DoesInputImageExist()))
-        {
-            return false;
-        }
-        return ResizeImage(this);
+  DoesOutputImageExistSync(): boolean {
+    return fs.existsSync(this.outputImagePath);
+  }
+
+  async CreateResizedImage(): Promise<boolean> {
+    console.info('in create resized image');
+    // debug
+    console.info(this.inputImagePath);
+    if (!(await this.DoesInputImageExist())) {
+      return false;
     }
+    return ResizeImage(this);
+  }
 }
 
-export {ImageRequest};
+export { ImageRequest };
