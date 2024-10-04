@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run build && npm run jasmine",
+    "start" : "npm run build && npm run runserver",
+    "runserver": "node dist/index",
     "build": "npx tsc",
     "lint": "eslint \"./src/**/*.ts\"",
     "prettier": "prettier --config .prettierrc \"./src/**/*.ts\" --write",
