@@ -40,6 +40,12 @@ class ImageRequest {
     this.outputImagePath = this.GetExpectedFilePath();
   }
 
+  MakeOutputDir() {
+    if (!fs.existsSync(this.outputDir)) {
+      fs.mkdirSync(this.outputDir);
+    }
+  }
+
   GetExpectedFilePath(): string {
     return path.join(
       this.outputDir,
@@ -76,12 +82,12 @@ class ImageRequest {
   }
 
   async CreateResizedImage(): Promise<boolean> {
-    console.info('in create resized image');
-    // debug
-    console.info(this.inputImagePath);
     if (!(await this.DoesInputImageExist())) {
       return false;
     }
+
+    // i wish there was a better way to do this
+    this.MakeOutputDir();
     return ResizeImage(this);
   }
 }

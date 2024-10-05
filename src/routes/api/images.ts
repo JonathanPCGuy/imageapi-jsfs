@@ -6,7 +6,7 @@ const resizeRoute = express.Router();
 
 resizeRoute.use(resizeRequest);
 
-resizeRoute.get('/', async (req, res) => {
+resizeRoute.get('/', async (req : express.Request, res: express.Response) => {
   // the middleware should make
   try {
     const imageRequest: ImageRequest = res.locals.imageRequest;
